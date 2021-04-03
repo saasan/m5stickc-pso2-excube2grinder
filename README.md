@@ -1,0 +1,2 @@
+# m5stickc-pso2-excube2grinder
+PSO2のエクスキューブ交換ショップでエクスキューブをグラインダーと交換する
