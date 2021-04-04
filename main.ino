@@ -13,7 +13,7 @@ struct Key {
   uint32_t delay;
 };
 // 送信するキーストローク
-const std::vector<Key> keystroke = {
+const std::vector<Key> keystrokeA = {
     { 'e'           , 1000 },   // エクスキューブ交換ショップ店員に話しかける
     { KEY_RETURN    , 500 },    // ショップメニューで「エクスキューブ交換ショップ」を選択
     { KEY_LEFT_ARROW, 300 },    // 「グラインダー(30個)」を最大数に設定
@@ -48,7 +48,7 @@ void clearScreen() {
 }
 
 // キーストロークを送信する
-void sendKeystroke() {
+void sendKeystroke(const std::vector<Key> &keystroke) {
     clearScreen();
     M5.Lcd.println("Sending...");
 
@@ -83,9 +83,9 @@ void loop() {
 
     if (bleKeyboard.isConnected()) {
         // Bluetooth接続済みの場合
-        // ボタンAが押されたらキーを送信
         if (M5.BtnA.wasPressed()) {
-            sendKeystroke();
+            // ボタンAが押されたらキーを送信
+            sendKeystroke(keystrokeA);
         }
 
         delay(10);
