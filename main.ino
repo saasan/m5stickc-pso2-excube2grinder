@@ -37,6 +37,8 @@ const std::vector<Key> keystrokeA = {
 // -----------------------------------------------------------------------------
 // ESP32-BLE-Keyboard
 BleKeyboard bleKeyboard;
+// Bluetooth接続済み
+bool isConnected = false;
 
 // -----------------------------------------------------------------------------
 // 関数
@@ -83,6 +85,14 @@ void loop() {
 
     if (bleKeyboard.isConnected()) {
         // Bluetooth接続済みの場合
+
+        if(!isConnected) {
+            // Bluetooth接続されたらメッセージを表示
+            clearScreen();
+            M5.Lcd.println("Connected!");
+            isConnected = true;
+        }
+
         if (M5.BtnA.wasPressed()) {
             // ボタンAが押されたらキーを送信
             sendKeystroke(keystrokeA);
@@ -91,6 +101,14 @@ void loop() {
         delay(10);
     }
     else {
+        // Bluetooth未接続の場合
+
+        if(isConnected) {
+            // Bluetooth切断されたら画面をクリア
+            clearScreen();
+            isConnected = false;
+        }
+
         // Bluetooth未接続の場合は5秒待つ
         M5.Lcd.println("Waiting 5 seconds...");
         delay(5000);
