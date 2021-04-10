@@ -7,6 +7,8 @@
 // -----------------------------------------------------------------------------
 // 電源ボタンが1秒未満押された
 const uint8_t AXP_WAS_PRESSED = 2;
+// ボタンが長押しされたと判定する時間(ms)
+const uint32_t BUTTON_PRESSED_MS = 500;
 // キーと待ち時間の構造体
 struct Key {
   uint8_t key;
@@ -29,7 +31,7 @@ const std::vector<Key> keystrokeA = {
     { KEY_RETURN    , 300 },    // 「倉庫に預ける」を選択
     { KEY_DOWN_ARROW, 300 },    // 「キャラ倉庫に預ける」へカーソルを移動
     { KEY_RETURN    , 500 },    // 決定
-    { KEY_HOME      , 0 }       // メインメニューを閉じる
+    { KEY_HOME      , 500 }     // メインメニューを閉じる
 };
 
 // -----------------------------------------------------------------------------
@@ -93,7 +95,7 @@ void loop() {
             isConnected = true;
         }
 
-        if (M5.BtnA.wasPressed()) {
+        if (M5.BtnA.wasPressed() || M5.BtnA.pressedFor(BUTTON_PRESSED_MS)) {
             // ボタンAが押されたらキーを送信
             sendKeystroke(keystrokeA);
         }
